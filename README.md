@@ -1,6 +1,6 @@
 # Setting up a Fresh Install
 
-First, clone into `$HOME`: `git clone https://github.com/joseph-long/dotfiles.git`. Note that unless git's `credential.useHttpPath` is already `true`, you will have to [remove the cached credentials](https://stackoverflow.com/questions/11067818/how-do-you-reset-the-stored-credentials-in-git-credential-osxkeychain). (The `.gitconfig` file in here sets `useHttpPath=true`.)
+First, clone into `$HOME`: `git clone https://github.com/joseph-long/dotfiles.git`. Note that unless git's `credential.useHttpPath` is already `true`, you will have to [remove the cached credentials](https://stackoverflow.com/questions/11067818/how-do-you-reset-the-stored-credentials-in-git-credential-osxkeychain). (The `.gitconfig` file in here sets `useHttpPath=true`.) On Linux, [more setup is required](http://blog.iqandreas.com/git/storing-https-authentication-in-ubuntu-and-arch-linux/#storing-your-https-credentials-using-a-keyring) for credential storage.
 
 To get the dotfiles and apply the subset of configuration steps that it was possible to automate, run one of the included scripts:
 
