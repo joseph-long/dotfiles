@@ -1,0 +1,7 @@
+.profile.d/STScI.sh
+.profile.d/anansi.sh
+.DS_Store
+.irssi/config
+.irssi/away.log
+
+.vim/.netrwhist

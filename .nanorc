@@ -1,0 +1,9 @@
+# Use auto-indentation 
+set autoindent
+
+# Spaces for indentation
+set tabsize 4
+set tabstospaces
+
+# Never wrap text!
+set nowrap

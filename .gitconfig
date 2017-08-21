@@ -1,0 +1,11 @@
+[alias]
+	undo-commit = reset --soft HEAD^
+[user]
+	name = Joseph Long
+	email = github@joseph-long.com
+[color]
+	ui = true
+[push]
+	default = simple
+[credential]
+	useHttpPath = true
