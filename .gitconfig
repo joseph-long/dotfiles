@@ -9,3 +9,4 @@
 	default = simple
 [credential]
 	useHttpPath = true
+	helper = !~/.git-credential-helper.sh
