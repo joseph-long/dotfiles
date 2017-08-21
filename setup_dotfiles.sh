@@ -6,6 +6,8 @@ for dotfile in ".bash_profile" ".bashrc" ".gitconfig" ".inputrc" ".profile" ".na
     if ! [ -e "$HOME/$dotfile" ] || [ -h "$HOME/$dotfile" ]; then
         rm -f "$HOME/$dotfile"
         ln -vs "$DIR/$dotfile" "$HOME/$dotfile"
+    else
+        echo "Already present: $HOME/$dotfile"
     fi
 done
 
@@ -20,6 +22,3 @@ if ! [ -e "$destpath" ] || [ -h "$destpath" ]; then
     rm -f "$destpath"
     ln -vs "$DIR/vscode-settings.json" "$destpath"
 fi
-
-echo -n "Fetching and/or updating git submodules..."
-git submodule init && git submodule update && echo " Done!"

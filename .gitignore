@@ -1,5 +1,6 @@
 .profile.d/STScI.sh
 .profile.d/anansi.sh
+.profile.d/kitsune.sh
 .DS_Store
 .irssi/config
 .irssi/away.log

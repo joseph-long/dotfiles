@@ -5,7 +5,7 @@ if [ $(command -v code) ]; then
     export EDITOR=code
 elif [ $(command -v nano) ]; then
     export EDITOR=nano
-else; then
+else
     export EDITOR=vi
 fi
 export VISUAL=$EDITOR
