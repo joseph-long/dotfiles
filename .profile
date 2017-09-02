@@ -2,7 +2,7 @@ export PATH="$HOME/bin:/usr/local/bin:$PATH"
 export MANPATH="$HOME/share/man:$MANPATH"
 
 if [ $(command -v code) ]; then
-    export EDITOR=code
+    export EDITOR="code -w"
 elif [ $(command -v nano) ]; then
     export EDITOR=nano
 else

@@ -4,5 +4,7 @@
         "*.vue": "vue"
     },
     "editor.detectIndentation": true,
-    "files.trimTrailingWhitespace": true
+    "files.trimTrailingWhitespace": true,
+    "markdown.preview.scrollEditorWithPreview": false,
+    "markdown.preview.scrollPreviewWithEditorSelection": false
 }
