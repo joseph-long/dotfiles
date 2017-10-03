@@ -22,3 +22,14 @@ if ! [ -e "$destpath" ] || [ -h "$destpath" ]; then
     rm -f "$destpath"
     ln -vs "$DIR/vscode-settings.json" "$destpath"
 fi
+
+if [[ $OSTYPE == darwin* ]]; then
+    destpath="$HOME/.nixpkgs/darwin-configuration.nix"
+    if ! [ -e "$destpath" ] || [ -h "$destpath" ]; then
+        mkdir -p "$HOME/.nixpkgs"
+        rm -f "$destpath"
+        ln -vs "$DIR/darwin-configuration.nix" "$destpath"
+    else
+        echo "Already have $destpath"
+    fi
+fi

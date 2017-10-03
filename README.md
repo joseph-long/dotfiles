@@ -1,10 +1,50 @@
 # Setting up a Fresh Install
 
-First, clone into `$HOME`: `git clone https://github.com/joseph-long/dotfiles.git`. Note that unless git's `credential.useHttpPath` is already `true`, you will have to [remove the cached credentials](https://stackoverflow.com/questions/11067818/how-do-you-reset-the-stored-credentials-in-git-credential-osxkeychain). (The `.gitconfig` file in here sets `useHttpPath=true`.) On Linux, [more setup is required](http://blog.iqandreas.com/git/storing-https-authentication-in-ubuntu-and-arch-linux/#storing-your-https-credentials-using-a-keyring) for credential storage.
+To do most of these things, I need my password manager. Install Dropbox, then 1Password, then continue.
 
-To get the dotfiles and apply the subset of configuration steps that it was possible to automate, run one of the included scripts:
+First, `git config --global credential.useHttpPath` to make sure the right remote URL gets cached when we clone.
+
+Next, clone into `$HOME`: `git clone https://github.com/joseph-long/dotfiles.git`. 
+
+(Note that unless git's `credential.useHttpPath` is already `true`, you will have to [remove the cached credentials](https://stackoverflow.com/questions/11067818/how-do-you-reset-the-stored-credentials-in-git-credential-osxkeychain). (The `.gitconfig` file in here sets `useHttpPath=true`.) On Linux, [more setup is required](http://blog.iqandreas.com/git/storing-https-authentication-in-ubuntu-and-arch-linux/#storing-your-https-credentials-using-a-keyring) for credential storage.)
+
+Next, link dotfiles into place (after removing the temporary git config): `rm -f ~/.gitconfig && ./setup_dotfiles.sh`
 
 ### macOS
+
+To set up `nix-darwin`, `curl https://nixos.org/nix/install > nix-install.sh` and `sh nix-install.sh`. 
+
+Following http://zzamboni.org/post/using-nixs-single-user-mode-on-macos/, convert the installation to single-user:
+
+```
+sudo launchctl unload /Library/LaunchDaemons/org.nixos.nix-daemon.plist 
+sudo launchctl stop org.nixos.nix-daemon
+sudo chown -R $USER /nix
+```
+
+Edit `/etc/bashrc` and `/etc/profile` and append `unset NIX_REMOTE`.
+
+Remove from /etc/nix/nix.conf:
+
+```
+build-users-group = nixbld
+```
+
+Then, install from https://github.com/LnL7/nix-darwin (using manual install for now).
+
+```
+git clone https://www.github.com/LnL7/nix-darwin.git ~/.nix-defexpr/darwin
+mkdir -p ~/.nixpkgs
+cp ~/.nix-defexpr/darwin/modules/examples/simple.nix ~/.nixpkgs/darwin-configuration.nix
+``` 
+
+The line `if test -e /etc/static/bashrc; then . /etc/static/bashrc; fi` is in `.bash_profile` already, so you don't need to modify it. 
+
+The `/etc/bashrc` and `/etc/nix/nix.conf` created by the Nix installer won't be overwritten by `nix-darwin`, so remove them and open a new terminal to run `darwin-rebuild`.
+
+The nix-darwin installer places a configuration file in `~/.nixpkgs/darwin-configuration.nix`. TODO: copy one from this repo.
+
+Some stateful things need setting:
 
   * If you have root on the machine: `bash ./setup_osx.sh`
   * If you don't have root on the machine: `bash ./setup_osx_nosudo.sh`
