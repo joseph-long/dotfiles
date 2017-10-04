@@ -82,7 +82,7 @@ in
   programs.bash.enable = true;
 
   # Configure hostname
-  networking.hostName = "Anansi";
+  networking.hostName = hostName;
 
   # Recreate /run/current-system symlink after boot.
   services.activate-system.enable = true;
