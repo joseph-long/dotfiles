@@ -61,3 +61,5 @@ if [ -d "$HOME/.profile.d" ]; then
     source "$fn"
   done
 fi
+
+if test -e /etc/static/bashrc; then . /etc/static/bashrc; fi
