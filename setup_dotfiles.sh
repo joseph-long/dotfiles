@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 for dotfile in ".bash_profile" ".bashrc" ".gitconfig" ".git-credential-helper.sh" ".inputrc" ".profile" ".nanorc" ".profile.d" ".slate" ".irssi"; do
@@ -19,6 +19,7 @@ else
 fi
 
 if ! [ -e "$destpath" ] || [ -h "$destpath" ]; then
+    mkdir -p "$(dirname "$destpath")"
     rm -f "$destpath"
     ln -vs "$DIR/vscode-settings.json" "$destpath"
 fi
