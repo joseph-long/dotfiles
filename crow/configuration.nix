@@ -80,6 +80,9 @@
     openssh.authorizedKeys.keys = [ "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBKNIvEp1lQtDihZaxeAOAnH/rP1LRHyHCG6KEOUs+RGWqOVVlW+aN0iGvdXs9IQsArkN224w5DpsOyEduda+6NU= jdl@Anansi" ];
   };
 
+  # Who needs a password anyway?
+  security.sudo.wheelNeedsPassword = false;
+
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "15.09";
 
