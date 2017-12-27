@@ -64,6 +64,9 @@
       serverAliases = [ "www.joseph-long.com" ];
       enableACME = true;
       forceSSL = false;
+      locations."/" = {
+        root = "/srv/www";
+      };
     };
   };
 
