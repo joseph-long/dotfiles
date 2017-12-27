@@ -66,7 +66,7 @@
       enableACME = true;
       forceSSL = false;
     };
-  }
+  };
 
   # Define a user account.
   users.extraUsers.josephoenix = {
