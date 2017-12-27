@@ -41,7 +41,6 @@
     gnumake 
     python3
     nodejs
-    tiddlywiki
   ];
 
   # List services that you want to enable:
