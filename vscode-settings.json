@@ -6,5 +6,21 @@
     "editor.detectIndentation": true,
     "files.trimTrailingWhitespace": true,
     "markdown.preview.scrollEditorWithPreview": false,
-    "markdown.preview.scrollPreviewWithEditorSelection": false
+    "markdown.preview.scrollPreviewWithEditorSelection": false,
+    "latex-workshop.view.pdf.viewer": "tab",
+    "latex-workshop.message.update.show": false,
+    "[html]": {
+        "editor.tabSize": 2,
+        "editor.insertSpaces": true
+    },
+    "[toml]": {
+        "editor.wordWrap": "wordWrapColumn",
+        "editor.wordWrapColumn": 80
+    },
+    "[latex]": {
+        "editor.wordWrap": "wordWrapColumn",
+        "editor.wordWrapColumn": 80,
+        "editor.autoIndent": false
+    },
+    "window.zoomLevel": 2
 }

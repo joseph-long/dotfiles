@@ -10,3 +10,5 @@
 [credential]
 	useHttpPath = true
 	helper = !~/.git-credential-helper.sh
+[merge]
+	ff = only
