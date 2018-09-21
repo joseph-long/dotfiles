@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-for dotfile in ".gitconfig" ".git-credential-helper.sh" ".inputrc" ".nanorc" ".profile.d" ".slate" ".irssi"; do
+for dotfile in ".gitconfig" ".git-credential-helper.sh" ".inputrc" ".nanorc" ".profile.d" ".slate" ".irssi" ".pylintc"; do
     # if it doesn't exist, or exists but is a symlink...
     if ! [ -e "$HOME/$dotfile" ] || [ -h "$HOME/$dotfile" ]; then
         rm -f "$HOME/$dotfile"
