@@ -14,7 +14,8 @@ done
 if ! grep -Fq ".profile.d" ~/.profile; then
     echo "Appending source lines to .profile"
     echo "for fn in ~/.profile.d/*.sh; do source "\$fn"; done" >> ~/.profile
-    echo "source ~/.profile.d/per-host/$(hostname).sh" >> ~/.profile
+    touch ~/.profile.d/per-host/$(hostname -s).sh
+    echo "source ~/.profile.d/per-host/$(hostname -s).sh" >> ~/.profile
 else
     echo "~/.profile.d is already mentioned in .profile, not adding source lines"
 fi
