@@ -1,3 +1,4 @@
 .DS_Store
 .vim/.netrwhist
 .ssh/id_*
+.ssh/known_hosts

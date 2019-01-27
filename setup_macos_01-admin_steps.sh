@@ -20,11 +20,7 @@ new_hostname=${new_hostname:-$default_hostname}
 echo $new_hostname
 
 # Set hostname not to change w/ network:
-sudo scutil --set HostName $new_hostname
-sudo scutil --set ComputerName $new_hostname
-sudo scutil --set HostName $new_hostname
-sudo scutil --set LocalHostName $new_hostname
-sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string $new_hostname
-
-# Disable local Time Machine snapshots
-sudo tmutil disablelocal
+sudo scutil --set ComputerName "$new_hostname"
+sudo scutil --set HostName "$new_hostname"
+sudo scutil --set LocalHostName "$new_hostname"
+sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "$new_hostname"

@@ -15,6 +15,9 @@ if [[ $platform == "MacOSX" ]]; then
     if ! [ -x "$(command -v brew)" ]; then
         /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     fi
+    if ! [ -x "$(command -v gs)" ]; then
+        brew install ghostscript
+    fi
     if ! [ -x "$(command -v code)" ]; then
         brew cask install visual-studio-code
     fi
@@ -29,6 +32,13 @@ if [[ $platform == "MacOSX" ]]; then
     fi
     if ! [ -e "/Applications/Slack.app" ]; then
         brew cask install slack
+    fi
+    if ! [ -e "/Applications/XQuartz.app" ]; then
+        brew cask install xquartz
+    fi
+    if ! [ -d "/Users/$USER/Library/QuickLook/QLStephen.qlgenerator" ]; then
+        brew cask install qlstephen
+        qlmanage -r
     fi
     ./setup_macos_01-admin_steps.sh
     ./setup_macos_02-user_steps.sh
