@@ -40,6 +40,9 @@ if [[ $platform == "MacOSX" ]]; then
         brew cask install qlstephen
         qlmanage -r
     fi
+    if ! [ -d "/Applications/TeX" ]; then
+        brew cask install mactex
+    fi
     ./setup_macos_01-admin_steps.sh
     ./setup_macos_02-user_steps.sh
 fi
