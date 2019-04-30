@@ -25,5 +25,15 @@
     "editor.wordBasedSuggestions": false,
     "editor.minimap.enabled": false,
     "workbench.colorTheme": "Solarized Light",
-    "telemetry.enableTelemetry": false
+    "telemetry.enableTelemetry": false,
+    "sshfs.configs": [
+        {
+            "host": "exao0.as.arizona.edu",
+            "label": "exao0",
+            "name": "edu.arizona.as.exao0",
+            "privateKeyPath": "$HOME/.ssh/id_ecdsa",
+            "root": "~",
+            "username": "jlong"
+        }
+    ]
 }
