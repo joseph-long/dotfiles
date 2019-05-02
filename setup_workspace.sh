@@ -2,7 +2,6 @@
 # Usage: curl -OL [...]/raw/setup_workspace.sh && bash setup_workspace.sh
 set -xuo pipefail
 cd
-xcode-select --install
 source ~/.profile
 
 case "$OSTYPE" in
@@ -12,6 +11,7 @@ case "$OSTYPE" in
 esac
 
 if [[ $platform == "MacOSX" ]]; then
+    xcode-select --install
     if ! [ -x "$(command -v brew)" ]; then
         /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     fi
@@ -172,6 +172,12 @@ make liblevmar.a
 install liblevmar.a "$PREFIX/lib/"
 cd "$DEVROOT"
 
+# Test SSH to Github:
+if ! ssh -T git@github.com; then
+    echo "Looks like SSH to GitHub isn't set up yet..."
+    exit 1
+fi
+
 if [[ -d "$DEVROOT/mxlib" ]]; then
     cd "$DEVROOT/mxlib"
     git pull
@@ -205,7 +211,7 @@ if [[ -d doodads ]]; then
     git pull
     echo "Updated doodads"
 else
-    git clone https://github.com/joseph-long/doodads.git
+    git clone git@github.com:joseph-long/doodads.git
     echo "Cloned a new copy of doodads"
     cd doodads
 fi
@@ -217,7 +223,7 @@ if [[ -d dotfiles ]]; then
     git pull
     echo "Updated dotfiles"
 else
-    git clone https://github.com/joseph-long/dotfiles.git
+    git clone git@github.com:joseph-long/dotfiles.git
     echo "Cloned a new copy of dotfiles"
     cd dotfiles
 fi
