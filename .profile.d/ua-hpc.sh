@@ -1,4 +1,4 @@
 if [[ $(hostname -f) != "*cluster" ]]; then
     alias ocelote="ssh -J josephlong@hpc.arizona.edu josephlong@login.ocelote.hpc.arizona.edu"
-    alias elgato="ssh -J josephlong@hpc.arizona.edu josephlong@elgato-login.hpc.arizona.edu"
+    alias elgato="ssh -J josephlong@hpc.arizona.edu josephlong@login.elgato.hpc.arizona.edu"
 fi

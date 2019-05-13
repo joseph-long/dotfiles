@@ -34,6 +34,14 @@
             "privateKeyPath": "$HOME/.ssh/id_ecdsa",
             "root": "~",
             "username": "jlong"
+        },
+        {
+            "host": "filexfer.hpc.arizona.edu",
+            "label": "hpc",
+            "name": "hpc",
+            "privateKeyPath": "$HOME/.ssh/id_rsa",
+            "root": "/xdisk/josephlong",
+            "username": "josephlong"
         }
     ]
 }
