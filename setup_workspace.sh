@@ -1,8 +1,8 @@
 #!/bin/bash
 # Usage: curl -OL [...]/raw/setup_workspace.sh && bash setup_workspace.sh
+source ~/.profile
 set -xuo pipefail
 cd
-source ~/.profile
 
 case "$OSTYPE" in
     darwin*) platform=MacOSX ;;
