@@ -172,12 +172,6 @@ make liblevmar.a
 install liblevmar.a "$PREFIX/lib/"
 cd "$DEVROOT"
 
-# Test SSH to Github:
-if ! ssh -T git@github.com; then
-    echo "Looks like SSH to GitHub isn't set up yet..."
-    exit 1
-fi
-
 if [[ -d "$DEVROOT/mxlib" ]]; then
     cd "$DEVROOT/mxlib"
     git pull
