@@ -196,7 +196,6 @@ fi
 set -u
 make "PREFIX=$PREFIX"
 make install "PREFIX=$PREFIX"
-set +u
 if [[ $LD_LIBRARY_PATH != *"$PREFIX/lib"* ]]; then
     if [[ $platform == "Linux" ]]; then
         echo "export LD_LIBRARY_PATH=\"$PREFIX/lib:/opt/intel/mkl/lib/intel64:\$LD_LIBRARY_PATH\"" >> ~/.profile
@@ -204,7 +203,7 @@ if [[ $LD_LIBRARY_PATH != *"$PREFIX/lib"* ]]; then
         echo "export LD_LIBRARY_PATH=\"$PREFIX/lib:/opt/intel/mkl/lib:\$LD_LIBRARY_PATH\"" >> ~/.profile
     fi
 fi
-set -u
+
 cd "$DEVROOT"
 if [[ -d doodads ]]; then
     cd doodads
