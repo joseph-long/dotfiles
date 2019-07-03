@@ -1,2 +1,2 @@
 module load singularity
-export PATH="$HOME/miniconda3/bin:$PATH"
+eval $(/extra/josephlong/.linuxbrew/bin/brew shellenv)
