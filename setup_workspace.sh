@@ -46,6 +46,69 @@ if [[ $platform == "MacOSX" ]]; then
     ./setup_macos_01-admin_steps.sh
     ./setup_macos_02-user_steps.sh
 fi
+if [[ $platform == "Linux" && $XDG_SESSION_TYPE == x11 ]]; then
+    cd Downloads
+    # Vagrant
+    if ! [ -x "$(command -v vagrant)" ]; then
+        curl -OL https://releases.hashicorp.com/vagrant/2.2.5/vagrant_2.2.5_x86_64.deb
+        sudo dpkg -i vagrant_2.2.5_x86_64.deb
+    fi
+    # Slack
+    if ! [ -x "$(command -v slack)" ]; then
+        curl -OL https://downloads.slack-edge.com/linux_releases/slack-desktop-4.0.1-amd64.deb
+        sudo dpkg -i slack-desktop-4.0.1-amd64.deb
+        sudo apt --fix-broken install -y
+    fi
+    # VSCode
+    if ! [ -x "$(command -v code)" ]; then
+        curl -OL https://go.microsoft.com/fwlink/?LinkID=760868
+        sudo dpkg -i code_*.deb
+    fi
+    # Spotify
+    if ! [ -x "$(command -v spotify)" ]; then
+        curl -sS https://download.spotify.com/debian/pubkey.gpg | sudo apt-key add -
+        echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
+        sudo apt-get update && sudo apt-get install -y spotify-client
+    fi
+    # Docker
+    if ! [ -x "$(command -v docker)" ]; then
+        sudo apt-get install -y \
+            apt-transport-https \
+            ca-certificates \
+            curl \
+            gnupg-agent \
+            software-properties-common
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+        sudo add-apt-repository \
+            "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+            $(lsb_release -cs) \
+            stable"
+        sudo apt-get update
+        sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+    fi
+    # yarn
+    if ! [ -x "$(command -v yarn)" ]; then
+        curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+        echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+        sudo apt-get update && sudo apt-get install -y yarn
+    fi
+    if sudo dmidecode | grep Cave; then
+        if [[ ! -d /usr/share/alsa/ucm/Google-Cave-1.0-Cave ]]; then
+            sudo bash -c "curl -L https://bugzilla.kernel.org/attachment.cgi?id=282677 > /lib/firmware/9d70-CORE-COREBOOT-0-tplg.bin"
+            sudo rm /lib/firmware/intel/dsp_fw_release.bin
+            sudo ln -s /lib/firmware/intel/dsp_fw_release_v969.bin /lib/firmware/intel/dsp_fw_release.bin
+            curl -OL https://github.com/nebulakl/cave-audio/archive/0ac059e243c8663908500ec01d7a11ee116041d9.tar.gz
+            tar xvzf 0ac059e243c8663908500ec01d7a11ee116041d9.tar.gz
+            cd cave-audio-0ac059e243c8663908500ec01d7a11ee116041d9/
+            sudo cp -r Google-Cave-1.0-Cave /usr/share/alsa/ucm
+            sudo ln -s /usr/share/alsa/ucm/Google-Cave-1.0-Cave/ /usr/share/alsa/ucm/sklnau8825max
+            echo "blacklist snd_hda_intel" | sudo tee /etc/modprobe.d/c302ca-audio.conf
+            echo ".include /etc/pulse/default.pa" > ~/.config/pulse/default.pa
+            echo "unload-module module-suspend-on-idle" >> ~/.config/pulse/default.pa
+        fi
+    fi
+    cd
+fi
 
 if [[ ! -e Miniconda3-latest-$platform-x86_64.sh ]]; then
   curl -OL https://repo.continuum.io/miniconda/Miniconda3-latest-$platform-x86_64.sh
@@ -190,6 +253,7 @@ fi
 set -u
 make "PREFIX=$PREFIX"
 make install "PREFIX=$PREFIX"
+set +u
 if [[ $LD_LIBRARY_PATH != *"$PREFIX/lib"* ]]; then
     if [[ $platform == "Linux" ]]; then
         echo "export LD_LIBRARY_PATH=\"$PREFIX/lib:/opt/intel/mkl/lib/intel64:\$LD_LIBRARY_PATH\"" >> ~/.profile
@@ -197,6 +261,7 @@ if [[ $LD_LIBRARY_PATH != *"$PREFIX/lib"* ]]; then
         echo "export LD_LIBRARY_PATH=\"$PREFIX/lib:/opt/intel/mkl/lib:\$LD_LIBRARY_PATH\"" >> ~/.profile
     fi
 fi
+set -u
 
 cd "$DEVROOT"
 if [[ -d doodads ]]; then
