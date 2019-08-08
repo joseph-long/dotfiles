@@ -61,14 +61,15 @@ if [[ $platform == "Linux" && $XDG_SESSION_TYPE == x11 ]]; then
     fi
     # VSCode
     if ! [ -x "$(command -v code)" ]; then
-        curl -OL https://go.microsoft.com/fwlink/?LinkID=760868
-        sudo dpkg -i code_*.deb
+        curl -L https://go.microsoft.com/fwlink/?LinkID=760868 > vscode.deb
+        sudo dpkg -i vscode.deb
     fi
     # Spotify
     if ! [ -x "$(command -v spotify)" ]; then
         curl -sS https://download.spotify.com/debian/pubkey.gpg | sudo apt-key add -
         echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
-        sudo apt-get update && sudo apt-get install -y spotify-client
+        sudo apt-get update
+        sudo apt-get install -y spotify-client
     fi
     # Docker
     if ! [ -x "$(command -v docker)" ]; then
@@ -91,21 +92,6 @@ if [[ $platform == "Linux" && $XDG_SESSION_TYPE == x11 ]]; then
         curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
         echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
         sudo apt-get update && sudo apt-get install -y yarn
-    fi
-    if sudo dmidecode | grep Cave; then
-        if [[ ! -d /usr/share/alsa/ucm/Google-Cave-1.0-Cave ]]; then
-            sudo bash -c "curl -L https://bugzilla.kernel.org/attachment.cgi?id=282677 > /lib/firmware/9d70-CORE-COREBOOT-0-tplg.bin"
-            sudo rm /lib/firmware/intel/dsp_fw_release.bin
-            sudo ln -s /lib/firmware/intel/dsp_fw_release_v969.bin /lib/firmware/intel/dsp_fw_release.bin
-            curl -OL https://github.com/nebulakl/cave-audio/archive/0ac059e243c8663908500ec01d7a11ee116041d9.tar.gz
-            tar xvzf 0ac059e243c8663908500ec01d7a11ee116041d9.tar.gz
-            cd cave-audio-0ac059e243c8663908500ec01d7a11ee116041d9/
-            sudo cp -r Google-Cave-1.0-Cave /usr/share/alsa/ucm
-            sudo ln -s /usr/share/alsa/ucm/Google-Cave-1.0-Cave/ /usr/share/alsa/ucm/sklnau8825max
-            echo "blacklist snd_hda_intel" | sudo tee /etc/modprobe.d/c302ca-audio.conf
-            echo ".include /etc/pulse/default.pa" > ~/.config/pulse/default.pa
-            echo "unload-module module-suspend-on-idle" >> ~/.config/pulse/default.pa
-        fi
     fi
     cd
 fi
@@ -134,135 +120,6 @@ export PREFIX=$HOME/.local
 mkdir -p "$PREFIX/"{lib,include,share,bin}
 export DEVROOT="$HOME/devel"
 mkdir -p "$DEVROOT"
-cd "$DEVROOT"
-# Intel MKL
-if [[ $platform == "Linux" ]]; then
-    INTEL_MKL_VERSION="2019.0.117"
-    INTEL_MKL_DIR="l_mkl_$INTEL_MKL_VERSION"
-    if [[ ! -d "./$INTEL_MKL_DIR" ]]; then
-    curl -OL http://registrationcenter-download.intel.com/akdlm/irc_nas/tec/13575/$INTEL_MKL_DIR.tgz
-    tar xvzf $INTEL_MKL_DIR.tgz
-    fi
-    if [[ ! -d "/opt/intel" ]]; then
-    cd $INTEL_MKL_DIR/
-    curl -OL https://raw.githubusercontent.com/magao-x/MagAOX/master/setup/intel_mkl_silent_install.cfg
-    sudo ./install.sh -s intel_mkl_silent_install.cfg
-    fi
-fi
-#
-# mxLib Dependencies
-#
-SOFA_REV="2018_0130_C"
-SOFA_REV_DATE=$(echo $SOFA_REV | tr -d _C)
-EIGEN_VERSION="3.3.4"
-LEVMAR_VERSION="2.6"
-FFTW_VERSION="3.3.8"
-# yum -y install lapack-devel atlas-devel
-# yum -y install boost-devel
-# yum -y install gsl gsl-devel
-#
-# FFTW (note: need 3.3.8 or newer, so can't use yum)
-#
-if [[ ! -d "./fftw-$FFTW_VERSION" ]]; then
-    curl -OL http://fftw.org/fftw-$FFTW_VERSION.tar.gz
-    tar xzf fftw-$FFTW_VERSION.tar.gz
-fi
-cd fftw-$FFTW_VERSION
-# Following Jared's comprehensive build script: https://gist.github.com/jaredmales/0aacc00b0ce493cd63d3c5c75ccc6cdd
-if [ ! -e /usr/local/lib/libfftw3f.a ]; then
-    ./configure --prefix=$PREFIX --enable-float --with-combined-threads --enable-threads --enable-shared
-    make
-    make install
-fi
-if [ ! -e /usr/local/lib/libfftw3.a ]; then
-    ./configure --prefix=$PREFIX --with-combined-threads --enable-threads --enable-shared
-    make
-    make install
-fi
-if [ ! -e /usr/local/lib/libfftw3l.a ]; then
-    ./configure --prefix=$PREFIX --enable-long-double --with-combined-threads --enable-threads --enable-shared
-    make
-    make install
-fi
-if [ ! -e /usr/local/lib/libfftw3q.a ]; then
-    ./configure --prefix=$PREFIX --enable-quad-precision --with-combined-threads --enable-threads --enable-shared
-    make
-    make install
-fi
-cd "$DEVROOT"
-#
-# CFITSIO
-#
-if [[ ! -d ./cfitsio ]]; then
-    curl -OL http://heasarc.gsfc.nasa.gov/FTP/software/fitsio/c/cfitsio_latest.tar.gz
-    tar xzf cfitsio_latest.tar.gz
-fi
-cd cfitsio
-./configure --prefix="$PREFIX"
-make
-make install
-cd "$DEVROOT"
-#
-# SOFA
-#
-if [[ ! -d ./sofa ]]; then
-    curl http://www.iausofa.org/$SOFA_REV/sofa_c-$SOFA_REV_DATE.tar.gz | tar xvz
-    echo "Downloaded and unpacked 'sofa' from sofa_c_-$SOFA_REV_DATE.tar.gz"
-fi
-cd sofa/$SOFA_REV_DATE/c/src
-make "CFLAGX=-pedantic -Wall -W -O -fPIC" "CFLAGF=-c -pedantic -Wall -W -O -fPIC"
-make install "INSTALL_DIR=$PREFIX"
-cd "$DEVROOT"
-#
-# Eigen
-#
-if [[ ! -e $(readlink "$PREFIX/include/Eigen") ]]; then
-    curl -L http://bitbucket.org/eigen/eigen/get/$EIGEN_VERSION.tar.gz | tar xvz
-    EIGEN_DIR=$(realpath $(find . -type d -name "eigen-eigen-*" | head -n 1))
-    ln -sv "$EIGEN_DIR/Eigen" "$PREFIX/include/Eigen"
-    echo "$PREFIX/include/Eigen is now a symlink to $EIGEN_DIR"
-fi
-cd "$DEVROOT"
-#
-# LevMar
-#
-LEVMAR_DIR="./levmar-$LEVMAR_VERSION"
-if [[ ! -d $LEVMAR_DIR ]]; then
-    curl -LA "Mozilla/5.0" http://users.ics.forth.gr/~lourakis/levmar/levmar-$LEVMAR_VERSION.tgz | tar xvz
-fi
-cd $LEVMAR_DIR
-make liblevmar.a
-install liblevmar.a "$PREFIX/lib/"
-cd "$DEVROOT"
-
-if [[ -d "$DEVROOT/mxlib" ]]; then
-    cd "$DEVROOT/mxlib"
-    git pull
-    echo "Updated mxlib"
-else
-    git clone --depth=1 https://github.com/jaredmales/mxlib.git
-    echo "Cloned a new copy of mxlib"
-    git remote add jlong git@github.com:joseph-long/mxlib.git
-    cd "$DEVROOT/mxlib"
-fi
-set +u
-if [[ $MXMAKEFILE != "$DEVROOT/mxlib/mk/MxApp.mk" ]]; then
-  export MXMAKEFILE="$DEVROOT/mxlib/mk/MxApp.mk"
-  echo "export MXMAKEFILE=\"$DEVROOT/mxlib/mk/MxApp.mk\"" >> ~/.profile
-fi
-set -u
-make "PREFIX=$PREFIX"
-make install "PREFIX=$PREFIX"
-set +u
-if [[ $LD_LIBRARY_PATH != *"$PREFIX/lib"* ]]; then
-    if [[ $platform == "Linux" ]]; then
-        echo "export LD_LIBRARY_PATH=\"$PREFIX/lib:/opt/intel/mkl/lib/intel64:\$LD_LIBRARY_PATH\"" >> ~/.profile
-    elif [[ $platform == "MacOSX" ]]; then
-        echo "export LD_LIBRARY_PATH=\"$PREFIX/lib:/opt/intel/mkl/lib:\$LD_LIBRARY_PATH\"" >> ~/.profile
-    fi
-fi
-set -u
-
 cd "$DEVROOT"
 if [[ -d doodads ]]; then
     cd doodads

@@ -33,3 +33,9 @@ if ! [ -e "$destpath" ] || [ -h "$destpath" ]; then
     rm -f "$destpath"
     ln -vs "$DIR/vscode-settings.json" "$destpath"
 fi
+if [[ $platform == "Linux" && $XDG_SESSION_TYPE == x11 ]]; then
+    mkdir -p ~/.local/share/applications/
+    rsync -av $DIR/.local/share/applications/ ~/.local/share/applications/
+    mkdir -p ~/.config/autostart/
+    rsync -av $DIR/.config/autostart/ ~/.config/autostart/
+fi

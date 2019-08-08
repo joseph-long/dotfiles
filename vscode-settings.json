@@ -21,7 +21,7 @@
         "editor.wordWrapColumn": 80,
         "editor.autoIndent": false
     },
-    "window.zoomLevel": 0,
+    "window.zoomLevel": 1,
     "editor.wordBasedSuggestions": false,
     "editor.minimap.enabled": false,
     "workbench.colorTheme": "Solarized Light",

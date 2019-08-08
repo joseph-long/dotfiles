@@ -1,0 +1,4 @@
+[Desktop Entry]
+Exec=xdg-open https://www.fastmail.com/mail/
+GenericName=Email, contacts, and calendar
+Icon=/home/jlong/.local/share/applications/fastmail.png
