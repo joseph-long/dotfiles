@@ -9,5 +9,5 @@ if [[ ! -z $MAGAOX_ROLE ]]; then
     else
         bgcolor=47
     fi
-    export PS1="\e[${bgcolor}m\e[${fgcolor}m [$MAGAOX_ROLE] \e[0m $PS1"
+    export PS1="\e[${bgcolor}m\e[${fgcolor}m [$MAGAOX_ROLE] \e[0m$PS1"
 fi
