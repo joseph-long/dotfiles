@@ -28,10 +28,9 @@ else
     destpath="$HOME/.config/Code/User/settings.json"
 fi
 
-if ! [ -e "$destpath" ] || [ -h "$destpath" ]; then
+if ! [[ -e "$destpath" ]]; then
     mkdir -p "$(dirname "$destpath")"
-    rm -f "$destpath"
-    ln -vs "$DIR/vscode-settings.json" "$destpath"
+    cp "$DIR/vscode-settings.json" "$destpath"
 fi
 if [[ $platform == "Linux" && $XDG_SESSION_TYPE == x11 ]]; then
     mkdir -p ~/.local/share/applications/
