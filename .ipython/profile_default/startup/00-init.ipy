@@ -1,0 +1,11 @@
+%reload_ext autoreload
+%autoreload 2
+import matplotlib.pyplot as plt
+import numpy as np
+from astropy.io import fits
+from astropy import units as u
+from astropy import constants as c
+from astropy.visualization import quantity_support
+quantity_support()
+import doodads as dd
+dd.init()

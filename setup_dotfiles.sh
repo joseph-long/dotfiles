@@ -11,6 +11,9 @@ for dotfile in ".gitconfig" ".git-credential-helper.sh" ".inputrc" ".nanorc" ".p
     fi
 done
 
+mkdir -p ~/.ipython/profile_default/startup/
+ln -vs "$DIR/.ipython/profile_default/startup/00-init.ipy" ~/.ipython/profile_default/startup/00-init.ipy
+
 if ! grep -Fq ".profile.d" ~/.profile; then
     echo "Appending source lines to .profile"
     echo "for fn in ~/.profile.d/*.sh; do source "\$fn"; done" >> ~/.profile
