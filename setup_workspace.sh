@@ -1,7 +1,8 @@
 #!/bin/bash
 # Usage: curl -OL [...]/raw/setup_workspace.sh && bash setup_workspace.sh
+# or: BASEDIR=/groups/jrmales/josephlong bash setup_workspace.sh
 source ~/.profile
-set -xuo pipefail
+set -xo pipefail
 cd
 
 case "$OSTYPE" in
@@ -46,7 +47,7 @@ if [[ $platform == "MacOSX" ]]; then
     ./setup_macos_01-admin_steps.sh
     ./setup_macos_02-user_steps.sh
 fi
-if [[ $platform == "Linux" && $XDG_SESSION_TYPE == x11 ]]; then
+if [[ $platform == "Linux" && ${XDG_SESSION_TYPE:-0} == x11 ]]; then
     cd Downloads
     # Vagrant
     if ! [ -x "$(command -v vagrant)" ]; then
@@ -95,31 +96,43 @@ if [[ $platform == "Linux" && $XDG_SESSION_TYPE == x11 ]]; then
     fi
     cd
 fi
+BASEDIR="${BASEDIR:-$HOME}"
+cd $BASEDIR
 
 if [[ ! -e Miniconda3-latest-$platform-x86_64.sh ]]; then
   curl -OL https://repo.continuum.io/miniconda/Miniconda3-latest-$platform-x86_64.sh
 fi
 chmod +x Miniconda3-latest-$platform-x86_64.sh
-if [[ ! -e miniconda3 ]]; then
-  ./Miniconda3-latest-$platform-x86_64.sh -b  # batch install
+if [[ ! -e $BASEDIR/miniconda3 ]]; then
+  ./Miniconda3-latest-$platform-x86_64.sh -b -p $BASEDIR/miniconda3 # batch install
 fi
 if [[ $PATH != *"miniconda3"* ]]; then
-  echo "export PATH=\"$HOME/miniconda3/bin:\$PATH\"" >> ~/.profile
+  echo "export PATH=\"$BASEDIR/miniconda3/bin:\$PATH\"" >> ~/.profile
 fi
 
 # Note: Ubuntu has .profile and .bashrc but no .bash_profile by default
 # macOS has neither
 source ~/.profile
 conda install -y -c conda-forge ipython numpy matplotlib joblib jupyterlab astropy pandas scikit-learn scipy scikit-image photutils ffmpeg pytables
-conda config --add channels "http://ssb.stsci.edu/astroconda"
-conda install -y ds9 poppy
+# conda config --add channels "http://ssb.stsci.edu/astroconda"
+# conda install -y ds9 poppy
 
 # Based on Linux convention
 # https://unix.stackexchange.com/questions/316765/which-distributions-have-home-local-bin-in-path
-export PREFIX=$HOME/.local
+export PREFIX=$BASEDIR/.local
 mkdir -p "$PREFIX/"{lib,include,share,bin}
-export DEVROOT="$HOME/devel"
+export DEVROOT="$BASEDIR/devel"
 mkdir -p "$DEVROOT"
+
+if [[ $BASEDIR != $HOME ]]; then
+    if [[ ! -e $HOME/.local ]]; then
+        ln -s $BASEDIR/.local $HOME/.local
+    fi
+    if [[ ! -e $HOME/devel ]]; then
+        ln -s $BASEDIR/devel $HOME/devel
+    fi
+fi
+
 cd "$DEVROOT"
 if [[ -d doodads ]]; then
     cd doodads

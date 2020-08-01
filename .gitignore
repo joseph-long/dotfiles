@@ -2,3 +2,4 @@
 .vim/.netrwhist
 .ssh/id_*
 .ssh/known_hosts
+.ipython/profile_default/history.sqlite
