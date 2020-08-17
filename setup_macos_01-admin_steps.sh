@@ -13,8 +13,9 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 # Enable the `locate` command
 sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist
-default_hostname="coyote"
 
+# Set hostname
+default_hostname=$(hostname -s)
 read -p "Set hostname [$default_hostname]: " new_hostname
 new_hostname=${new_hostname:-$default_hostname}
 echo $new_hostname

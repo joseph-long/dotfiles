@@ -11,13 +11,29 @@ case "$OSTYPE" in
     *) exit 1 ;;
 esac
 
-if [[ $platform == "MacOSX" ]]; then
-    xcode-select --install
-    if ! [ -x "$(command -v brew)" ]; then
-        /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+# Based on Linux convention
+# https://unix.stackexchange.com/questions/316765/which-distributions-have-home-local-bin-in-path
+BASEDIR="${BASEDIR:-$HOME}"
+cd $BASEDIR
+export PREFIX=$BASEDIR/.local
+mkdir -p "$PREFIX/"{lib,include,share,bin}
+export DEVROOT="$BASEDIR/devel"
+mkdir -p "$DEVROOT"
+
+if [[ $BASEDIR != $HOME ]]; then
+    if [[ ! -e $HOME/.local ]]; then
+        ln -s $BASEDIR/.local $HOME/.local
     fi
-    if ! [ -x "$(command -v gs)" ]; then
-        brew install ghostscript
+    if [[ ! -e $HOME/devel ]]; then
+        ln -s $BASEDIR/devel $HOME/devel
+    fi
+fi
+./setup_dotfiles.sh
+
+if [[ $platform == "MacOSX" ]]; then
+    if ! [ -x "$(command -v brew)" ]; then
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
     fi
     if ! [ -x "$(command -v code)" ]; then
         brew cask install visual-studio-code
@@ -34,8 +50,11 @@ if [[ $platform == "MacOSX" ]]; then
     if ! [ -e "/Applications/Slack.app" ]; then
         brew cask install slack
     fi
-    if ! [ -e "/Applications/XQuartz.app" ]; then
+    if ! [ -e "/Applications/Utilities/XQuartz.app" ]; then
         brew cask install xquartz
+    fi
+    if ! [ -e "/Applications/Spotify.app" ]; then
+        brew cask install spotify
     fi
     if ! [ -d "/Users/$USER/Library/QuickLook/QLStephen.qlgenerator" ]; then
         brew cask install qlstephen
@@ -44,8 +63,20 @@ if [[ $platform == "MacOSX" ]]; then
     if ! [ -d "/Applications/TeX" ]; then
         brew cask install mactex
     fi
-    ./setup_macos_01-admin_steps.sh
-    ./setup_macos_02-user_steps.sh
+    if ! [ -e "/Applications/Vagrant.app" ]; then
+        brew cask install vagrant
+    fi
+    if ! [ -e "/Applications/VirtualBox.app" ]; then
+        brew cask install virtualbox
+    fi
+    if ! [ -e "/Applications/WhatsApp.app" ]; then
+        brew cask install whatsapp
+    fi
+    if ! [ -e "/Applications/Zoom.app" ]; then
+        brew cask install zoom
+    fi
+    # ./setup_macos_01-admin_steps.sh
+    # ./setup_macos_02-user_steps.sh
 fi
 if [[ $platform == "Linux" && ${XDG_SESSION_TYPE:-0} == x11 ]]; then
     cd Downloads
@@ -96,8 +127,7 @@ if [[ $platform == "Linux" && ${XDG_SESSION_TYPE:-0} == x11 ]]; then
     fi
     cd
 fi
-BASEDIR="${BASEDIR:-$HOME}"
-cd $BASEDIR
+
 
 if [[ ! -e Miniconda3-latest-$platform-x86_64.sh ]]; then
   curl -OL https://repo.continuum.io/miniconda/Miniconda3-latest-$platform-x86_64.sh
@@ -114,24 +144,6 @@ fi
 # macOS has neither
 source ~/.profile
 conda install -y -c conda-forge ipython numpy matplotlib joblib jupyterlab astropy pandas scikit-learn scipy scikit-image photutils ffmpeg pytables
-# conda config --add channels "http://ssb.stsci.edu/astroconda"
-# conda install -y ds9 poppy
-
-# Based on Linux convention
-# https://unix.stackexchange.com/questions/316765/which-distributions-have-home-local-bin-in-path
-export PREFIX=$BASEDIR/.local
-mkdir -p "$PREFIX/"{lib,include,share,bin}
-export DEVROOT="$BASEDIR/devel"
-mkdir -p "$DEVROOT"
-
-if [[ $BASEDIR != $HOME ]]; then
-    if [[ ! -e $HOME/.local ]]; then
-        ln -s $BASEDIR/.local $HOME/.local
-    fi
-    if [[ ! -e $HOME/devel ]]; then
-        ln -s $BASEDIR/devel $HOME/devel
-    fi
-fi
 
 cd "$DEVROOT"
 if [[ -d doodads ]]; then
@@ -144,15 +156,3 @@ else
     cd doodads
 fi
 pip install -e .
-cd "$DEVROOT"
-
-if [[ -d dotfiles ]]; then
-    cd dotfiles
-    git pull
-    echo "Updated dotfiles"
-else
-    git clone git@github.com:joseph-long/dotfiles.git
-    echo "Cloned a new copy of dotfiles"
-    cd dotfiles
-fi
-./setup_dotfiles.sh

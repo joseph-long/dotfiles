@@ -3,3 +3,5 @@
 .ssh/id_*
 .ssh/known_hosts
 .ipython/profile_default/history.sqlite
+.jupyter/migrated
+.jupyter/lab/workspaces
