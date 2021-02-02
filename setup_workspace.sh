@@ -143,7 +143,10 @@ fi
 # Note: Ubuntu has .profile and .bashrc but no .bash_profile by default
 # macOS has neither
 source ~/.profile
-conda install -y -c conda-forge ipython numpy matplotlib joblib jupyterlab astropy pandas scikit-learn scipy scikit-image photutils ffmpeg pytables
+conda install -y -c conda-forge \
+    ipython numpy matplotlib jupyterlab astropy pandas scikit-learn scipy \
+    scikit-image ffmpeg ipywidgets dask distributed dask-labextension \
+    pytest graphviz python-graphviz flake8 rope autopep8
 
 cd "$DEVROOT"
 if [[ -d doodads ]]; then
