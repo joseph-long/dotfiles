@@ -24,7 +24,6 @@ function myq() {
         squeue -u $USER
     fi
 }
-
 function d2s() {
     pushd ~/devel/simgs/
     sbatch <<EOF

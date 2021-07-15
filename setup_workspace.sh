@@ -36,44 +36,44 @@ if [[ $platform == "MacOSX" ]]; then
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
     fi
     if ! [ -x "$(command -v code)" ]; then
-        brew cask install visual-studio-code
+        brew install --cask visual-studio-code
     fi
     if ! [ -e "/Applications/Firefox.app" ]; then
-        brew cask install firefox
+        brew install --cask firefox
     fi
     if ! [ -e "/Applications/iTerm.app" ]; then
-        brew cask install iterm2
+        brew install --cask iterm2
     fi
     if ! [ -e "/Applications/Transmission.app" ]; then
-        brew cask install transmission
+        brew install --cask transmission
     fi
     if ! [ -e "/Applications/Slack.app" ]; then
-        brew cask install slack
+        brew install --cask slack
     fi
     if ! [ -e "/Applications/Utilities/XQuartz.app" ]; then
-        brew cask install xquartz
+        brew install --cask xquartz
     fi
     if ! [ -e "/Applications/Spotify.app" ]; then
-        brew cask install spotify
+        brew install --cask spotify
     fi
     if ! [ -d "/Users/$USER/Library/QuickLook/QLStephen.qlgenerator" ]; then
-        brew cask install qlstephen
+        brew install --cask qlstephen
         qlmanage -r
     fi
     if ! [ -d "/Applications/TeX" ]; then
-        brew cask install mactex
+        brew install --cask mactex
     fi
     if ! [ -e "/Applications/Vagrant.app" ]; then
-        brew cask install vagrant
+        brew install --cask vagrant
     fi
     if ! [ -e "/Applications/VirtualBox.app" ]; then
-        brew cask install virtualbox
+        brew install --cask virtualbox
     fi
     if ! [ -e "/Applications/WhatsApp.app" ]; then
-        brew cask install whatsapp
+        brew install --cask whatsapp
     fi
     if ! [ -e "/Applications/Zoom.app" ]; then
-        brew cask install zoom
+        brew install --cask zoom
     fi
     # ./setup_macos_01-admin_steps.sh
     # ./setup_macos_02-user_steps.sh
@@ -144,9 +144,11 @@ fi
 # macOS has neither
 source ~/.profile
 conda install -y -c conda-forge \
-    ipython numpy matplotlib jupyterlab astropy pandas scikit-learn scipy \
-    scikit-image ffmpeg ipywidgets dask distributed dask-labextension \
-    pytest graphviz python-graphviz flake8 rope autopep8
+    ipython numpy matplotlib astropy pandas scikit-learn scipy scikit-image \
+    jupyterlab ipywidgets \
+    mkl mkl-include \
+    dask distributed dask-labextension fsspec graphviz python-graphviz \
+    asyncssh pytest flake8 rope black ffmpeg
 
 cd "$DEVROOT"
 if [[ -d doodads ]]; then

@@ -1,4 +1,3 @@
-export MKLROOT=/Users/josephlong/miniconda3/
 # Added by icommands 4.1.9 CyVerse Installer on
 # On Wed Oct  7 16:24:10 MST 2020
 export PATH="/Applications/icommands/:$PATH"
