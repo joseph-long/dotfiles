@@ -14,21 +14,8 @@ esac
 
 # Based on Linux convention
 # https://unix.stackexchange.com/questions/316765/which-distributions-have-home-local-bin-in-path
-BASEDIR="${BASEDIR:-$HOME}"
+source paths.sh
 cd $BASEDIR
-export PREFIX=$BASEDIR/.local
-mkdir -p "$PREFIX/"{lib,include,share,bin}
-export DEVROOT="$BASEDIR/devel"
-mkdir -p "$DEVROOT"
-
-if [[ $BASEDIR != $HOME ]]; then
-    if [[ ! -e $HOME/.local ]]; then
-        ln -s $BASEDIR/.local $HOME/.local
-    fi
-    if [[ ! -e $HOME/devel ]]; then
-        ln -s $BASEDIR/devel $HOME/devel
-    fi
-fi
 ./setup_dotfiles.sh
 
 if [[ $platform == "MacOSX" ]]; then
@@ -142,22 +129,3 @@ fi
 
 # Note: Ubuntu has .profile and .bashrc but no .bash_profile by default
 # macOS has neither
-source ~/.profile
-conda install -y -c conda-forge \
-    ipython numpy matplotlib astropy pandas scikit-learn scipy scikit-image \
-    jupyterlab ipywidgets \
-    mkl mkl-include \
-    dask distributed dask-labextension fsspec graphviz python-graphviz \
-    asyncssh pytest flake8 rope black ffmpeg
-
-cd "$DEVROOT"
-if [[ -d doodads ]]; then
-    cd doodads
-    git pull
-    echo "Updated doodads"
-else
-    git clone git@github.com:joseph-long/doodads.git
-    echo "Cloned a new copy of doodads"
-    cd doodads
-fi
-pip install -e .
