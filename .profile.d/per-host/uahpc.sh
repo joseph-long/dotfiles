@@ -36,4 +36,4 @@ EOF
     popd
 }
 alias myq="squeue -u $USER"
-alias kill_all_my_jobs="squeue -u $USER | tail -n +2 | awk '{print $1}' | xargs qdel"
+alias kill_all_my_jobs="squeue -u $USER | tail -n +2 | awk '{print \$1}' | xargs qdel"
