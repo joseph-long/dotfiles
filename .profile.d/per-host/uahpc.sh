@@ -17,6 +17,10 @@ elif [[ $(command -v module) == "module" ]]; then
     module load intel/mkl/64
 fi
 function d2s() {
+    if [[ -z $1 ]]; then
+        echo "missing image name"
+        return 1
+    fi
     pushd ~/devel/simgs/
     sbatch <<EOF
 #!/usr/bin/bash
