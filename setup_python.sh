@@ -10,10 +10,11 @@ fi
 source ~/.profile
 conda install -y -c conda-forge \
     ipython numpy matplotlib astropy pandas scikit-learn scipy scikit-image numba \
-    jupyterlab ipywidgets \
+    jupyterlab ipywidgets nodejs \
     mkl mkl-include \
-    dask distributed dask-labextension fsspec graphviz python-graphviz \
-    asyncssh pytest flake8 rope black ffmpeg
+    dask distributed uvloop dask-labextension fsspec graphviz python-graphviz \
+    asyncssh pytest flake8 rope black ffmpeg \
+    py-spy memory_profiler
 
 source paths.sh
 cd "$DEVROOT"
