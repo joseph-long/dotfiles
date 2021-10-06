@@ -16,14 +16,6 @@ elif [[ $(command -v module) == "module" ]]; then
     module load singularity
     module load intel/mkl/64
 fi
-function myq() {
-    if [[ $_UAHPC_SYS == PBS ]]; then
-        qstat -Jt -w -n -u $USER
-        qstat -w -n -u $USER
-    elif [[ $_UAHPC_SYS == SLURM ]]; then
-        squeue -u $USER
-    fi
-}
 function d2s() {
     pushd ~/devel/simgs/
     sbatch <<EOF
@@ -39,3 +31,5 @@ singularity pull --disable-cache --force docker://${1}
 EOF
     popd
 }
+alias myq="squeue -u $USER"
+alias kill_all_my_jobs="squeue -u $USER | tail -n +2 | awk '{print $1}' | xargs qdel"
