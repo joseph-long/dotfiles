@@ -3,11 +3,12 @@
 # or: BASEDIR=/groups/jrmales/josephlong bash setup_workspace.sh
 source ~/.profile
 set -xo pipefail
-cd
+# cd
+OSTYPE=$(uname)
 
 case "$OSTYPE" in
-    darwin*) platform=MacOSX ;;
-    linux*) platform=Linux ;;
+    Darwin) platform=MacOSX ;;
+    Linux) platform=Linux ;;
     *) exit 1 ;;
 esac
 
@@ -21,6 +22,9 @@ cd $BASEDIR
 if [[ $platform == "MacOSX" ]]; then
     if ! [ -x "$(command -v brew)" ]; then
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+    fi
+    if ! [ -x "$(command -v code)" ]; then
+        brew install --cask signal
     fi
     if ! [ -x "$(command -v code)" ]; then
         brew install --cask visual-studio-code
@@ -43,27 +47,12 @@ if [[ $platform == "MacOSX" ]]; then
     if ! [ -e "/Applications/Spotify.app" ]; then
         brew install --cask spotify
     fi
-    if ! [ -d "/Users/$USER/Library/QuickLook/QLStephen.qlgenerator" ]; then
-        brew install --cask qlstephen
-        qlmanage -r
-    fi
     if ! [ -d "/Applications/TeX" ]; then
         brew install --cask mactex
-    fi
-    if ! [ -e "/Applications/Vagrant.app" ]; then
-        brew install --cask vagrant
-    fi
-    if ! [ -e "/Applications/VirtualBox.app" ]; then
-        brew install --cask virtualbox
-    fi
-    if ! [ -e "/Applications/WhatsApp.app" ]; then
-        brew install --cask whatsapp
     fi
     if ! [ -e "/Applications/Zoom.app" ]; then
         brew install --cask zoom
     fi
-    # ./setup_macos_01-admin_steps.sh
-    # ./setup_macos_02-user_steps.sh
 fi
 if [[ $platform == "Linux" && ${XDG_SESSION_TYPE:-0} == x11 ]]; then
     cd Downloads
@@ -115,17 +104,7 @@ if [[ $platform == "Linux" && ${XDG_SESSION_TYPE:-0} == x11 ]]; then
     cd
 fi
 
-
-if [[ ! -e Miniconda3-latest-$platform-x86_64.sh ]]; then
-  curl -OL https://repo.continuum.io/miniconda/Miniconda3-latest-$platform-x86_64.sh
+if [[ ! -e $BASEDIR/mambaforge ]]; then
+    curl -L -O https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh
+    bash Mambaforge-$(uname)-$(uname -m).sh -b -p $BASEDIR/mambaforge
 fi
-chmod +x Miniconda3-latest-$platform-x86_64.sh
-if [[ ! -e $BASEDIR/miniconda3 ]]; then
-  ./Miniconda3-latest-$platform-x86_64.sh -b -p $BASEDIR/miniconda3 # batch install
-fi
-if [[ $PATH != *"miniconda3"* ]]; then
-  echo "export PATH=\"$BASEDIR/miniconda3/bin:\$PATH\"" >> ~/.profile
-fi
-
-# Note: Ubuntu has .profile and .bashrc but no .bash_profile by default
-# macOS has neither
