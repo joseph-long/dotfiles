@@ -108,3 +108,5 @@ if [[ ! -e $BASEDIR/mambaforge ]]; then
     curl -L -O https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh
     bash Mambaforge-$(uname)-$(uname -m).sh -b -p $BASEDIR/mambaforge
 fi
+$BASEDIR/mambaforge/bin/conda init zsh
+$BASEDIR/mambaforge/bin/conda init bash

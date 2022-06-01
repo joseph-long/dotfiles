@@ -12,3 +12,7 @@
 	helper = !~/.git-credential-helper.sh
 [merge]
 	ff = only
+[pull]
+	rebase = false
+[init]
+	defaultBranch = main

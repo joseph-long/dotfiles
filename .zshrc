@@ -42,3 +42,8 @@ zstyle ':vcs_info:git:*' actionformats '(%b|%a%u%c) '
 NEWLINE=$'\n'
 RPROMPT='%F{yellow}$vcs_info_msg_0_%f'
 PROMPT="%F{blue}%*%f %F{green}%m%f:%~ %F{magenta}%n%f$NEWLINE%B%%%b "
+
+PATH="$PATH:$HOME/.local/bin"
+
+alias ds9="ds9 -multiframe -zoom to fit"
+alias rustdoc="rustup docs --toolchain=stable-x86_64-apple-darwin"
