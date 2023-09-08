@@ -13,7 +13,7 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-conda activate py39
+conda activate py310
 bindkey '\e[H'    beginning-of-line
 bindkey '\e[F'    end-of-line
 
@@ -45,5 +45,20 @@ PROMPT="%F{blue}%*%f %F{green}%m%f:%~ %F{magenta}%n%f$NEWLINE%B%%%b "
 
 PATH="$PATH:$HOME/.local/bin"
 
-alias ds9="ds9 -multiframe -zoom to fit"
+alias ds9="ds9 -view layout vertical -multiframe -zoom to fit"
 alias rustdoc="rustup docs --toolchain=stable-x86_64-apple-darwin"
+alias goodnoise="afplay /System/Library/Sounds/Blow.aiff"
+alias badnoise="afplay /System/Library/Sounds/Hero.aiff"
+alias puma="ssh puma"
+
+function makenoise () {
+  local last="$?"
+  if [[ "$last" == '0' ]]; then
+    goodnoise
+  else
+    badnoise
+  fi
+  $(exit "$last")
+}
+
+export  TUNE_RESULT_DELIM='/'
