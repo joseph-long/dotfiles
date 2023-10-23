@@ -24,6 +24,15 @@ else
     echo "~/.profile.d is already mentioned in .profile, not adding source lines"
 fi
 
+# Why does this have to be named .zshrc to get colors to work? :(
+if ! grep -Fq ".profile.d" ~/.zshrc; then
+    echo "Appending source lines to .zshrc"
+    echo "for fn in ~/.profile.d/*.zsh; do source "\$fn"; done" >> ~/.zshrc
+    touch ~/.profile.d/per-host/$(hostname -s).zsh
+    echo "source ~/.profile.d/per-host/$(hostname -s).zsh" >> ~/.zshrc
+else
+    echo "~/.profile.d is already mentioned in .zshrc, not adding source lines"
+fi
 
 # Special case for platform-dependent VSCode config file
 if [[ $OSTYPE == darwin* ]]; then
