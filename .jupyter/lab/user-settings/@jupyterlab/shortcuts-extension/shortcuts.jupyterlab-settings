@@ -1,0 +1,120 @@
+{
+    // Keyboard Shortcuts
+    // @jupyterlab/shortcuts-extension:shortcuts
+    //
+    // Disable all command-mode single-key (no-modifier) shortcuts that change a
+    // cell's type: Y (code), M (markdown), R (raw), and 1-6 (headings).
+    // Two selector variants are listed per command so the "disabled" flag
+    // matches across the different JupyterLab versions installed in the mamba
+    // envs (older "lsp" env uses a different selector syntax).
+    "shortcuts": [
+        {
+            "command": "notebook:change-cell-to-code",
+            "keys": ["Y"],
+            "selector": ".jp-Notebook.jp-mod-commandMode:not(.jp-mod-readWrite) :focus",
+            "disabled": true
+        },
+        {
+            "command": "notebook:change-cell-to-code",
+            "keys": ["Y"],
+            "selector": ".jp-Notebook.jp-mod-commandMode :focus:not(:read-write)",
+            "disabled": true
+        },
+        {
+            "command": "notebook:change-cell-to-markdown",
+            "keys": ["M"],
+            "selector": ".jp-Notebook.jp-mod-commandMode:not(.jp-mod-readWrite) :focus",
+            "disabled": true
+        },
+        {
+            "command": "notebook:change-cell-to-markdown",
+            "keys": ["M"],
+            "selector": ".jp-Notebook.jp-mod-commandMode :focus:not(:read-write)",
+            "disabled": true
+        },
+        {
+            "command": "notebook:change-cell-to-raw",
+            "keys": ["R"],
+            "selector": ".jp-Notebook.jp-mod-commandMode:not(.jp-mod-readWrite) :focus",
+            "disabled": true
+        },
+        {
+            "command": "notebook:change-cell-to-raw",
+            "keys": ["R"],
+            "selector": ".jp-Notebook.jp-mod-commandMode :focus:not(:read-write)",
+            "disabled": true
+        },
+        {
+            "command": "notebook:change-cell-to-heading-1",
+            "keys": ["1"],
+            "selector": ".jp-Notebook.jp-mod-commandMode:not(.jp-mod-readWrite) :focus",
+            "disabled": true
+        },
+        {
+            "command": "notebook:change-cell-to-heading-1",
+            "keys": ["1"],
+            "selector": ".jp-Notebook.jp-mod-commandMode :focus:not(:read-write)",
+            "disabled": true
+        },
+        {
+            "command": "notebook:change-cell-to-heading-2",
+            "keys": ["2"],
+            "selector": ".jp-Notebook.jp-mod-commandMode:not(.jp-mod-readWrite) :focus",
+            "disabled": true
+        },
+        {
+            "command": "notebook:change-cell-to-heading-2",
+            "keys": ["2"],
+            "selector": ".jp-Notebook.jp-mod-commandMode :focus:not(:read-write)",
+            "disabled": true
+        },
+        {
+            "command": "notebook:change-cell-to-heading-3",
+            "keys": ["3"],
+            "selector": ".jp-Notebook.jp-mod-commandMode:not(.jp-mod-readWrite) :focus",
+            "disabled": true
+        },
+        {
+            "command": "notebook:change-cell-to-heading-3",
+            "keys": ["3"],
+            "selector": ".jp-Notebook.jp-mod-commandMode :focus:not(:read-write)",
+            "disabled": true
+        },
+        {
+            "command": "notebook:change-cell-to-heading-4",
+            "keys": ["4"],
+            "selector": ".jp-Notebook.jp-mod-commandMode:not(.jp-mod-readWrite) :focus",
+            "disabled": true
+        },
+        {
+            "command": "notebook:change-cell-to-heading-4",
+            "keys": ["4"],
+            "selector": ".jp-Notebook.jp-mod-commandMode :focus:not(:read-write)",
+            "disabled": true
+        },
+        {
+            "command": "notebook:change-cell-to-heading-5",
+            "keys": ["5"],
+            "selector": ".jp-Notebook.jp-mod-commandMode:not(.jp-mod-readWrite) :focus",
+            "disabled": true
+        },
+        {
+            "command": "notebook:change-cell-to-heading-5",
+            "keys": ["5"],
+            "selector": ".jp-Notebook.jp-mod-commandMode :focus:not(:read-write)",
+            "disabled": true
+        },
+        {
+            "command": "notebook:change-cell-to-heading-6",
+            "keys": ["6"],
+            "selector": ".jp-Notebook.jp-mod-commandMode:not(.jp-mod-readWrite) :focus",
+            "disabled": true
+        },
+        {
+            "command": "notebook:change-cell-to-heading-6",
+            "keys": ["6"],
+            "selector": ".jp-Notebook.jp-mod-commandMode :focus:not(:read-write)",
+            "disabled": true
+        }
+    ]
+}
