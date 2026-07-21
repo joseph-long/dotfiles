@@ -14,11 +14,9 @@ esac
 # Based on Linux convention
 # https://unix.stackexchange.com/questions/316765/which-distributions-have-home-local-bin-in-path
 source paths.sh
-cd $BASEDIR
-bash setup_scripts/link_dotfiles.sh
-
+cd $DEVROOT/dotfiles/ || exit 1
 if [[ $platform == "MacOSX" ]]; then
     bash setup_scripts/macos.sh
 fi
-
 bash setup_scripts/setup_python.sh
+bash setup_scripts/link_dotfiles.sh

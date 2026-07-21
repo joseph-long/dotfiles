@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-DIR=$(exec 2>/dev/null;cd -- $(dirname "$0"); unset PWD; /usr/bin/pwd || /bin/pwd || pwd)
+thisDir=$(exec 2>/dev/null;cd -- $(dirname "$0"); unset PWD; /usr/bin/pwd || /bin/pwd || pwd)
+DIR=$(realpath $thisDir/..)
 mkdir -p "$HOME/.ssh"
 for dotfile in ".gitconfig" ".git-credential-helper.sh" ".inputrc" ".nanorc" ".profile.d" ".pylintrc" ".ssh/config" ".jupyter"; do
     # if it doesn't exist, or exists but is a symlink...

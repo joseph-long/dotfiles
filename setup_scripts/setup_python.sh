@@ -3,8 +3,8 @@ defaultEnv=py313
 defaultPyVersion=3.13
 source ~/.profile
 
-if [[ ! -e "$BASEDIR/mambaforge" ]]; then
-    curl -fsSLo Miniforge3.sh "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$platform-$(uname -m).sh"
+if [[ ! -e "$BASEDIR/conda" ]]; then
+    curl -fsSLo Miniforge3.sh "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
     bash Miniforge3.sh -b -p "$BASEDIR/conda"
 fi
 
@@ -30,9 +30,10 @@ mamba install -n "${defaultEnv}" -y -c conda-forge \
     ipython numpy matplotlib astropy pandas scipy scikit-image numba \
     jupyterlab notebook ipywidgets nodejs \
     uvloop fsspec pytest flake8 rope black ffmpeg \
-    py-spy memory_profiler
+    py-spy memory_profiler jupyter-lsp-python \
+;
 
-pip install pyviewarr fitsview jupyterlab-speedy-unfold
+"$BASEDIR/conda/envs/${defaultEnv}/bin/pip" install pyviewarr fitsview jupyterlab-speedy-unfold
 
 # Install editable versions for my packages
 source paths.sh

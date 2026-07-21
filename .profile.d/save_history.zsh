@@ -1,2 +1,0 @@
-setopt share_history
-
