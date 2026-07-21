@@ -7,6 +7,7 @@
 .ipython/profile_default/history.sqlite
 .jupyter/migrated
 .jupyter/lab/workspaces
-.jupyter/.claude/
+.jupyter/
 .jupyter/serverconfig
 Miniforge3.sh
+.claude

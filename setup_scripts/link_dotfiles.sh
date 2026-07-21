@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 thisDir=$(exec 2>/dev/null;cd -- $(dirname "$0"); unset PWD; /usr/bin/pwd || /bin/pwd || pwd)
 DIR=$(realpath $thisDir/..)
 mkdir -p "$HOME/.ssh"
