@@ -14,5 +14,5 @@ zstyle ':vcs_info:*' stagedstr ' +'
 zstyle ':vcs_info:git:*' formats       '(%b%u%c) '
 zstyle ':vcs_info:git:*' actionformats '(%b|%a%u%c) '
 export NEWLINE=$'\n'
-export RPROMPT='%F{yellow}$vcs_info_msg_0_%f'
-export PROMPT="%F{blue}%*%f %F{green}%m%f:%~ %F{magenta}%n%f$NEWLINE%B%%%b "
+#export RPROMPT='%F{yellow}$vcs_info_msg_0_%f'
+export PROMPT="%F{blue}%*%f %F{green}%m%f:%~ %F{magenta}%n%f$NEWLINE%F{yellow}$vcs_info_msg_0_%f%B%%%b "

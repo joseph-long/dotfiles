@@ -1,7 +1,11 @@
 .DS_Store
 .vim/.netrwhist
 .ssh/id_*
+.ssh/*ed25519*
+.ssh/*ecdsa*
 .ssh/known_hosts
 .ipython/profile_default/history.sqlite
 .jupyter/migrated
 .jupyter/lab/workspaces
+.jupyter/.claude/
+.jupyter/serverconfig

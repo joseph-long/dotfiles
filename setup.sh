@@ -1,38 +1,24 @@
 #!/bin/bash
-# Usage: curl -OL [...]/raw/setup.sh && bash setup.sh
-if [[ -e ~/.profile ]]; then
-    source ~/.profile
-fi
-set -xuo pipefail
-cd
+# Usage: bash setup.sh
+#    or: BASEDIR=/mnt/home/jlong bash setup.sh
+source ~/.profile
+set -xo pipefail
+OSTYPE=$(uname)
 
 case "$OSTYPE" in
-    darwin*) platform=MacOSX ;;
-    linux*) platform=Linux ;;
+    Darwin) platform=MacOSX ;;
+    Linux) platform=Linux ;;
     *) exit 1 ;;
 esac
 
-if ! [ -x "$(command -v git)" ]; then
-    if [[ $platform == "MacOSX" ]]; then
-        xcode-select --install
-    else
-        echo "git command unavailable; install it first"
-        exit 1
-    fi
+# Based on Linux convention
+# https://unix.stackexchange.com/questions/316765/which-distributions-have-home-local-bin-in-path
+source paths.sh
+cd $BASEDIR
+bash setup_scripts/link_dotfiles.sh
+
+if [[ $platform == "MacOSX" ]]; then
+    bash setup_scripts/macos.sh
 fi
 
-export DEVROOT="$HOME/devel"
-mkdir -p "$DEVROOT"
-
-cd "$DEVROOT"
-
-if [[ -d dotfiles ]]; then
-    cd dotfiles
-    git pull
-    echo "Updated dotfiles"
-else
-    git clone git@github.com:joseph-long/dotfiles.git
-    echo "Cloned a new copy of dotfiles"
-    cd dotfiles
-fi
-./setup_workspace.sh
+bash setup_scripts/setup_python.sh
